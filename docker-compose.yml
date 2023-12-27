@@ -4,6 +4,7 @@ services:
   ConvertibleBondAlerts:
     build: .
     container_name: convertible_bond_alerts
+    restart: always
     environment:
       - TZ=Asia/Shanghai
       - BARK_TOKEN=your_bark_token_here
