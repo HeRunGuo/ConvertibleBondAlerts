@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  ConvertibleBondAlerts:
+    build: .
+    container_name: convertible_bond_alerts
+    environment:
+      - TZ=Asia/Shanghai
+      - BARK_TOKEN=your_bark_token_here
+    volumes:
+      - .:/usr/src/app
+      - ./logs:/var/log # 请修改这里为你想要的日志路径
+    command: bash -c "touch /var/log/cron.log && cron && tail -f /var/log/cron.log"
