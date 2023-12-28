@@ -44,6 +44,7 @@ def make_msg(data):
 
 def send_msg(token, content):
     logging.info('开始发送消息')
+    logging.info('消息内容:{}'.format(content))
     url = u'https://api.day.app/{}/可转债打新提醒/{}'.format(token, content)
     res = requests.get(url)
     if res.status_code != 200:
