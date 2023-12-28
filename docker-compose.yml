@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  ConvertibleBondAlerts:
+  convertible_bond_alerts:
     build: .
     container_name: convertible_bond_alerts
     restart: always
