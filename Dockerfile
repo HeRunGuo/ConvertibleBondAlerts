@@ -4,6 +4,9 @@ FROM python:3.8-slim
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
+# Copy the current directory contents into the container at /usr/src/app
+COPY . .
+
 # Set the timezone environment variable
 ENV TZ=Asia/Shanghai
 ENV BARK_TOKEN=your_bark_token_here
@@ -14,8 +17,6 @@ RUN apt-get update \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && pip install --no-cache-dir -r requirements.txt
 
-# Copy the current directory contents into the container at /usr/src/app
-COPY . .
 
 # Add crontab file in the cron directory
 ADD crontab /etc/cron.d/my-cron-job
