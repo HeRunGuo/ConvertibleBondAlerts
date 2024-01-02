@@ -15,7 +15,8 @@ ENV BARK_TOKEN=your_bark_token_here
 RUN apt-get update \
     && apt-get install -y --no-install-recommends tzdata cron \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
-    && pip install --no-cache-dir -r requirements.txt
+    && pip install --no-cache-dir -r requirements.txt \
+    && RUN python3 --version
 
 
 # Add crontab file in the cron directory
