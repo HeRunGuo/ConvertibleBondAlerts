@@ -6,6 +6,8 @@ import pytz
 import traceback
 import os
 import logging
+import requests
+from requests.exceptions import RequestException
 
 # 设置日志配置
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -44,13 +46,27 @@ def make_msg(data):
 
 def send_msg(token, content):
     logging.info('开始发送消息')
+    logging.info('消息token:{}'.format(token))
     logging.info('消息内容:{}'.format(content))
     url = u'https://api.day.app/{}/可转债打新提醒/{}'.format(token, content)
-    res = requests.get(url)
-    if res.status_code != 200:
-        logging.error('消息发送失败')
-        raise Exception('消息发送失败')
-    logging.info('消息发送完成')
+    logging.info('消息发送url:{}'.format(url))
+    retries = 3
+    for attempt in range(retries):
+        try:
+            res = requests.get(url)
+            res.raise_for_status()
+            logging.info('消息发送状态码:{}'.format(res.status_code))
+            logging.info('消息发送结果:{}'.format(res.text))
+            logging.info('消息发送完成')
+            return
+        except RequestException as e:
+            logging.info('消息发送状态码:{}'.format(res.status_code))
+            logging.info('消息发送结果:{}'.format(res.text))
+            logging.error('消息发送失败: {}'.format(str(e)))
+            if attempt < retries - 1:
+                logging.info('重试第 {} 次'.format(attempt + 1))
+            else:
+                raise Exception('消息发送失败')
 
 if __name__ == '__main__':
     token = os.environ.get('BARK_TOKEN')
