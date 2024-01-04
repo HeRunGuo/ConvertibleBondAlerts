@@ -8,6 +8,7 @@ import os
 import logging
 import requests
 from requests.exceptions import RequestException
+from dotenv import load_dotenv
 
 # 设置日志配置
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -69,6 +70,7 @@ def send_msg(token, content):
                 raise Exception('消息发送失败')
 
 if __name__ == '__main__':
+    load_dotenv()
     token = os.environ.get('BARK_TOKEN')
     beijing_tz = pytz.timezone('Asia/Shanghai')
     today = datetime.now(beijing_tz)
